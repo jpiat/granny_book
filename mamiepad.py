@@ -196,6 +196,8 @@ while True:
 		except FaceBookException as e:
 			print str(e)+" :  Auth error !"
 			continue
+		except e:
+			print str(e)
 		if len(stream) > 0:
 			scope.setLed(fbk_friend.flist_id[k]['index'] ,fbk_friend.flist_id[k]['color'])
 			#print "stream received "
