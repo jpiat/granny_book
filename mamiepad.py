@@ -9,6 +9,8 @@ from subprocess import call
 import fbk_friend  
 import serial
 import binascii
+import threading
+
 
 SPACER_OFFSET = 5
 NAME_SIZE = 48
@@ -31,6 +33,29 @@ def splitText(txt, n):
 		cur_txt = ''	
 	
 	return text_list
+
+
+class facebook_thread(threading.Thread):
+	def __init__(self):
+        	threading.Thread.__init__(self)
+		self.fbk = facebook_client()
+        	self._stopevent = threading.Event( )
+		self.stream = {}
+	def run(self):
+		i = 0
+		while not self._stopevent.isSet():
+			for k  in fbk_friend.flist_id.keys():
+	                	try:
+					self.stream[k] = self.fbk.getLatestStream(k)
+				except FaceBookException as e:
+					print str(e)+" :  Auth error !"
+					continue
+				except:
+					print "Unknown error"
+			time.sleep(2)
+	def stop(self):
+		self._stopevent.set( )
+	
  
 class pyscope :
     screen = None;
@@ -180,7 +205,9 @@ class pyscope :
  
 # Create an instance of the PyScope class
 scope = pyscope()
-fbk = facebook_client()
+#fbk = facebook_client()
+fbk_thread = facebook_thread()
+fbk_thread.start()
 scope.showBlason()	
 time.sleep(5)
 #print fbk.friendlist
@@ -192,12 +219,13 @@ while True:
 	print "col: "+str(col)+" line: "+str(line)
 	for k  in fbk_friend.flist_id.keys():
 		try:
-			stream = fbk.getLatestStream(k)
-		except FaceBookException as e:
-			print str(e)+" :  Auth error !"
-			continue
-		except e:
-			print str(e)
+			stream = fbk_thread.stream[k]
+			#stream = fbk.getLatestStream(k)
+		#except FaceBookException as e:
+		#	print str(e)+" :  Auth error !"
+		#	continue
+		except:
+			print "Error !"
 		if len(stream) > 0:
 			scope.setLed(fbk_friend.flist_id[k]['index'] ,fbk_friend.flist_id[k]['color'])
 			#print "stream received "
