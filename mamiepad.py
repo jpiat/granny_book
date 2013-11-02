@@ -227,13 +227,15 @@ while True:
 		except:
 			print "Error !"
 		if len(stream) > 0:
-			scope.setLed(fbk_friend.flist_id[k]['index'] ,fbk_friend.flist_id[k]['color'])
+			#scope.setLed(fbk_friend.flist_id[k]['index'] ,fbk_friend.flist_id[k]['color'])
 			#print "stream received "
 			if fbk_friend.flist_id[k]['key'] == key:
 				if len(stream[0]) < 4:
                                         scope.displayStatus(stream[0])
+					scope.setLed(fbk_friend.flist_id[k]['index'] ,fbk_friend.flist_id[k]['color'])
                                 else:
                                         scope.displayPhoto(stream[0])
+					scope.setLed(fbk_friend.flist_id[k]['index'] ,fbk_friend.flist_id[k]['color'])
 	scope.writeLeds()
 scope.showBlason()
 time.sleep(5)
