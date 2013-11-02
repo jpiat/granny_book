@@ -1,3 +1,5 @@
+#mapping of green is 0x1b and red does not work ...
+
 flist_id = {100006530254783L: {'name' : u'Alice Santise', 'key' : 0x4e, 'index' : 13, 'color' : 0x01}, 
 	710561363: {'name' : u'Poum-Poum Paris', 'key' : 0x07, 'index' : 4, 'color' : 0x01}, 
 	563353866: {'name' : u'Gabrielle Durand', 'key' : 0x3e, 'index' : 12, 'color' : 0x06}, 
