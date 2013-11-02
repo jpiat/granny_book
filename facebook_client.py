@@ -87,6 +87,7 @@ class facebook_client:
         	self.friendlist = {}
         	for friend in json_output['data'][:]:
                 	self.friendlist[friend['uid']] = friend['name']
+		self.friendlist[1011722861] = 'Jonathan Piat'
 
 
 	def getLatestStreamForAll(self):
