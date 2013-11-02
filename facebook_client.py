@@ -97,7 +97,7 @@ class facebook_client:
 
 	def getLatestStream(self, user):
 		try:
-			json_output = self.graph.fql('SELECT source_id, post_id, message, type, attachment, updated_time FROM stream WHERE source_id='+str(user)+' order by updated_time')
+			json_output = self.graph.fql('SELECT source_id, post_id, message, type, attachment, updated_time FROM stream WHERE source_id='+str(user)+' order by created_time')
 		except exceptions.OAuthError as e :
 			raise FaceBookException(str(e))
 		cts = time.time()
