@@ -211,31 +211,35 @@ fbk_thread.start()
 scope.showBlason()	
 time.sleep(5)
 #print fbk.friendlist
-while True:
-	scope.clearLedBuffer()
-	key = scope.getKey()
-	line = key >> 4
-	col = key & 0x0F
-	print "col: "+str(col)+" line: "+str(line)
-	for k  in fbk_friend.flist_id.keys():
-		try:
-			stream = fbk_thread.stream[k]
-			#stream = fbk.getLatestStream(k)
-		#except FaceBookException as e:
-		#	print str(e)+" :  Auth error !"
-		#	continue
-		except:
-			print "Error !"
-		if len(stream) > 0:
-			scope.setLed(fbk_friend.flist_id[k]['index'] ,fbk_friend.flist_id[k]['color'])
-			#print "stream received "
-			if fbk_friend.flist_id[k]['key'] == key:
-				if len(stream[0]) < 4:
-                                        scope.displayStatus(stream[0])
-					#scope.setLed(fbk_friend.flist_id[k]['index'] ,fbk_friend.flist_id[k]['color'])
-                                else:
-                                        scope.displayPhoto(stream[0])
-					#scope.setLed(fbk_friend.flist_id[k]['index'] ,fbk_friend.flist_id[k]['color'])
-	scope.writeLeds()
+try:
+	while True:
+		scope.clearLedBuffer()
+		key = scope.getKey()
+		line = key >> 4
+		col = key & 0x0F
+		print "col: "+str(col)+" line: "+str(line)
+		for k  in fbk_friend.flist_id.keys():
+			try:
+				stream = fbk_thread.stream[k]
+				#stream = fbk.getLatestStream(k)
+			#except FaceBookException as e:
+			#	print str(e)+" :  Auth error !"
+			#	continue
+			except:
+				print "Error !"
+			if len(stream) > 0:
+				scope.setLed(fbk_friend.flist_id[k]['index'] ,fbk_friend.flist_id[k]['color'])
+				#print "stream received "
+				if fbk_friend.flist_id[k]['key'] == key:
+					if len(stream[0]) < 4:
+		                                scope.displayStatus(stream[0])
+						#scope.setLed(fbk_friend.flist_id[k]['index'] ,fbk_friend.flist_id[k]['color'])
+		                        else:
+		                                scope.displayPhoto(stream[0])
+						#scope.setLed(fbk_friend.flist_id[k]['index'] ,fbk_friend.flist_id[k]['color'])
+		scope.writeLeds()
+except KeyboardInterrupt:
+	fbk_thread.stop()
+
 scope.showBlason()
 time.sleep(5)
